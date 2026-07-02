@@ -1,40 +1,28 @@
 import streamlit as st
-import plotly.express as px
-import pandas as pd
+
+from src.cities import CITIES
+from src.heat_score import calculate_heat_score
+
 
 def show():
-    st.title("📊 Dashboard")
+    st.success("Dashboard page loaded successfully!")
+    st.title("📊 Heat Risk Dashboard")
 
-    st.subheader("Urban Heat Monitoring")
-
-    # Metrics
-    c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric("🔥 Hotspots", "245", "+12")
-    c2.metric("🌡 Avg Temp", "39.2°C", "+0.8°C")
-    c3.metric("🌳 Green Cover", "27%", "-2%")
-    c4.metric("🏙 Risk Zones", "18", "+3")
-
-    st.divider()
-
-    # Sample Data
-    df = pd.DataFrame({
-        "Day": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-        "Temperature":[35,36,37,39,40,41,39]
-    })
-
-    fig = px.line(
-        df,
-        x="Day",
-        y="Temperature",
-        markers=True,
-        title="Weekly Temperature Trend"
+    city = st.selectbox(
+        "Select City",
+        list(CITIES.keys())
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    score, risk = calculate_heat_score(city)
 
-    st.divider()
+    st.metric(
+        "Heat Score",
+        score
+    )
 
-    st.subheader("🗺 Heat Map")
+    st.metric(
+        "Risk Level",
+        risk
+    )
 
-    st.info("Heat Map will be displayed here in the next module.")
+    st.progress(score / 100)
