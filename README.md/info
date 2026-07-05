@@ -1,0 +1,42 @@
+# 🌍 ThermaVista
+
+AI-Powered Urban Heat Island Detection and Cooling Recommendation System
+
+## Features
+
+- 🛰 Satellite Viewer
+- 🌿 NDVI Analysis
+- 🌡 Land Surface Temperature
+- 📊 Interactive Dashboard
+- 🤖 AI Heat Prediction
+- 🌳 Smart Recommendations
+- 🔥 Heat Risk Map
+
+## Tech Stack
+
+- Python
+- Streamlit
+- Google Earth Engine
+- Scikit-learn
+- Plotly
+- Folium
+- Pandas
+
+## Installation
+
+git clone ...
+
+pip install -r requirements.txt
+
+streamlit run app/streamlit_app.py
+
+## Screenshots
+
+(Home, Dashboard, Prediction, Heat Map)
+
+## Future Scope
+
+- Real-time monitoring
+- IoT integration
+- Mobile app
+- More satellite sources

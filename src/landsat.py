@@ -13,35 +13,54 @@ def get_landsat_image(lat, lon, year, layer):
         .first()
     )
 
-    # True Color
+    if image is None:
+        return None, None
+
+    # TRUE COLOR
     if layer == "True Color":
+
         vis_params = {
             "bands": ["SR_B4", "SR_B3", "SR_B2"],
             "min": 7000,
-            "max": 15000,
+            "max": 15000
         }
 
     # NDVI
     elif layer == "NDVI":
-        image = image.normalizedDifference(["SR_B5", "SR_B4"]).rename("NDVI")
+
+        image = image.normalizedDifference(
+            ["SR_B5", "SR_B4"]
+        ).rename("NDVI")
 
         vis_params = {
-            "min": 0,
+            "min": -1,
             "max": 1,
-            "palette": ["brown", "yellow", "green"],
+            "palette": [
+                "blue",
+                "white",
+                "green"
+            ]
         }
 
-    # Land Surface Temperature
-    elif layer == "Land Surface Temperature":
-        image = image.select("ST_B10").multiply(0.00341802).add(149.0)
+    # LST
+    else:
+
+        image = (
+            image.select("ST_B10")
+            .multiply(0.00341802)
+            .add(149.0)
+        )
 
         vis_params = {
             "min": 290,
             "max": 320,
-            "palette": ["blue", "orange", "red"],
+            "palette": [
+                "blue",
+                "cyan",
+                "yellow",
+                "orange",
+                "red"
+            ]
         }
 
-    map_id = image.getMapId(vis_params)
-
-    return map_id["tile_fetcher"].url_format
-    
+    return image, vis_params
